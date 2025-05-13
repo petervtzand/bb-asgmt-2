@@ -8,12 +8,6 @@ defmodule AppWeb.PageController do
     render(conn, :home, layout: false)
   end
 
-  def transform_string_list_into_atom_list(string_list) do
-    %{:select => string_list}
-    |> Map.get(:select)
-    |> Enum.map(fn x -> String.to_atom(x) end)
-  end
-
   def get_data_from_file(app_file_path) do
     path = Path.join(File.cwd!(), app_file_path)
     YamlElixir.read_from_file(path)

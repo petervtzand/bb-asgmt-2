@@ -34,7 +34,8 @@ RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 
 # App Port
-EXPOSE 4001
+ARG PORT_TO_EXPOSE
+EXPOSE ${PORT_TO_EXPOSE}}
 
 # Default Command
 CMD ["mix", "phx.server"]
