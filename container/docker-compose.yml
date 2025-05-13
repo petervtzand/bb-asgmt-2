@@ -1,0 +1,68 @@
+---
+version: "3"
+services:
+  service_b:
+    build:
+      context: ../
+      dockerfile: container/Dockerfile
+      args:
+        WORK_DIR: "/service_b"
+        PORT_TO_EXPOSE: 4000
+    command: mix phx.server
+    # command: mix ecto.migrate
+    environment:
+      - PORT=4000
+      - BINDING=0.0.0.0
+    ports:
+      - "4000:4000"
+    volumes:
+      - ../service_b:/service_b:cached
+
+      # This lets you avoid setting up Git again in the container
+      - ~/.gitconfig:/root/.gitconfig
+    depends_on:
+      - db
+      - redis
+
+  service_a:
+    build:
+      context: ../
+      dockerfile: container/Dockerfile
+      args:
+        WORK_DIR: "/service_a"
+        PORT_TO_EXPOSE: 4001
+    command: mix phx.server
+    environment:
+      - PORT=4001
+      - BINDING=0.0.0.0
+    ports:
+      - "4001:4001"
+    volumes:
+      - ../service_a:/service_a:cached
+
+      # This lets you avoid setting up Git again in the container
+      - ~/.gitconfig:/root/.gitconfig
+    depends_on:
+      - redis
+
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - "5432"
+    volumes:
+      - "database:/var/lib/postgresql/data"
+
+  redis:
+    image: redis:latest
+    expose:
+      - "6379"
+    command: [ "redis-server", "--appendonly", "yes" ]
+    volumes:
+      - redis-data:/data
+
+volumes:
+  database:
+  redis-data:

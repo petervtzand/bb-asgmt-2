@@ -1,0 +1,5 @@
+tables:
+  users:
+  - first_name
+  - last_name
+  - number_of_bikes
