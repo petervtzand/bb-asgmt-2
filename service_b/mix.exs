@@ -59,7 +59,8 @@ defmodule App.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.2"},
       {:redix, "~> 1.1"},
-      {:yaml_elixir, "~> 2.11.0"}
+      {:yaml_elixir, "~> 2.11.0"},
+      {:cors_plug, "~> 3.0"}
     ]
   end
 
