@@ -27,9 +27,8 @@ defmodule AppWeb.PageController do
     App.Repo.insert(changeset)
   end
 
-  def create_users(conn, _params) do
+  def create_users() do
     Enum.each(0..20, fn _x -> create_random_user() end)
-    send_resp(conn, 200, "OK")
   end
 
   def transform_string_list_into_atom_list(string_list) do
@@ -38,39 +37,16 @@ defmodule AppWeb.PageController do
     |> Enum.map(fn x -> String.to_atom(x) end)
   end
 
-  def get_data_from_file(app_file_path) do
-    path = Path.join(File.cwd!(), app_file_path)
-    YamlElixir.read_from_file(path)
-  end
-
   def run_redis_command(command_to_run) do
     Redix.start_link("redis://redis:6379/0", name: :redix)
     Redix.command(:redix, command_to_run)
   end
 
-  def save_tables_info_to_redis(tables_info) do
-    # delete tables var, to make sure we don't add duplicate keys
-    run_redis_command(["DEL", "tables"])
-
-    # loop over tables info, add table name to tables, and save columns for each table in "columns:<table_name>"
-    for {k, v} <- tables_info do
-      run_redis_command(["LPUSH", "tables", k])
-      run_redis_command(["DEL", "columns:#{k}"])
-      run_redis_command(["LPUSH", "columns:#{k}" | v])
-    end
-  end
-
-  @spec my_read_file_route(Plug.Conn.t(), any()) :: Plug.Conn.t()
-  def my_read_file_route(conn, _params) do
-    # read file and extra 'tables' data
-    {:ok, yaml_data} = get_data_from_file("assets/data-structure-info.yml")
-    tables_info = yaml_data["tables"]
-
-    save_tables_info_to_redis(tables_info)
-
+  def return_all_table_names(conn, _params) do
+    # get the column names from redis
     {:ok, table_names} = run_redis_command(["LRANGE", "tables", 0, -1])
 
-    json(conn, %{:tables => table_names})
+    json(conn, %{:table_names => table_names})
   end
 
   def return_model_route(conn, params) do

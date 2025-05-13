@@ -2,30 +2,28 @@ defmodule AppWeb.Router do
   use AppWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_live_flash
-    plug :put_root_layout, html: {AppWeb.Layouts, :root}
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_live_flash)
+    plug(:put_root_layout, html: {AppWeb.Layouts, :root})
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/", AppWeb do
-    pipe_through :browser
+    pipe_through(:browser)
 
-    get "/", PageController, :home
-    get "/api/:model_name", PageController, :return_model_route
-    get "/create_users", PageController, :create_users
-    get "/read_file", PageController, :my_read_file_route
+    get("/", PageController, :home)
+    get("/read_file", PageController, :my_read_file_route)
   end
 
   # Other scopes may use custom stacks.
   scope "/api", AppWeb do
-    pipe_through :api
+    pipe_through(:api)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
@@ -38,10 +36,10 @@ defmodule AppWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/dev" do
-      pipe_through :browser
+      pipe_through(:browser)
 
-      live_dashboard "/dashboard", metrics: AppWeb.Telemetry
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
+      live_dashboard("/dashboard", metrics: AppWeb.Telemetry)
+      forward("/mailbox", Plug.Swoosh.MailboxPreview)
     end
   end
 end
