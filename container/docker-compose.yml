@@ -1,6 +1,17 @@
 ---
 version: "3"
 services:
+
+  frontend:
+    build:
+      dockerfile: container/Dockerfile-frontend
+      context: ../
+    ports:
+      - 3000:3000
+    volumes:
+      - ../frontend:/frontend:cached
+    command: npm start
+
   service_b:
     build:
       context: ../
@@ -9,7 +20,6 @@ services:
         WORK_DIR: "/service_b"
         PORT_TO_EXPOSE: 4000
     command: mix phx.server
-    # command: mix ecto.migrate
     environment:
       - PORT=4000
       - BINDING=0.0.0.0
@@ -17,9 +27,6 @@ services:
       - "4000:4000"
     volumes:
       - ../service_b:/service_b:cached
-
-      # This lets you avoid setting up Git again in the container
-      - ~/.gitconfig:/root/.gitconfig
     depends_on:
       - db
       - redis
@@ -39,9 +46,6 @@ services:
       - "4001:4001"
     volumes:
       - ../service_a:/service_a:cached
-
-      # This lets you avoid setting up Git again in the container
-      - ~/.gitconfig:/root/.gitconfig
     depends_on:
       - redis
 
