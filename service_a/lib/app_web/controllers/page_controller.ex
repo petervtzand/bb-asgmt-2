@@ -16,8 +16,7 @@ defmodule AppWeb.PageController do
 
   """
   def get_data_from_file(app_file_path) do
-    path = Path.join(File.cwd!(), app_file_path)
-    YamlElixir.read_from_file(path)
+    path = Path.join(File.cwd!(), app_file_path) |> YamlElixir.read_from_file()
   end
 
   @doc """
