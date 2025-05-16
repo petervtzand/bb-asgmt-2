@@ -56,7 +56,7 @@ defmodule AppWeb.PageController do
   @doc """
   Route for reading the datastructure file and saving to redis
 
-  Returns a json object with key = 'tables' and value = list of table names
+  Returns a json response with key = 'tables' and value = list of table names
 
   """
   @spec my_read_file_route(Plug.Conn.t(), any()) :: Plug.Conn.t()
