@@ -16,6 +16,7 @@ defmodule AppWeb.Endpoint do
     longpoll: [connect_info: [session: @session_options]]
   )
 
+  # Make sure the frontend can fire requests to this application
   plug(CORSPlug, origin: ["http://localhost:3000"])
 
   # Serve at "/" the static files from "priv/static" directory.

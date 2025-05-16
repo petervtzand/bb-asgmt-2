@@ -71,6 +71,7 @@ tbody tr {
   vertical-align: middle;
   font-family: Fustat, sans-serif !important;
   cursor: pointer;
+  margin: 0px 10px;
 }
 
 .App-header {

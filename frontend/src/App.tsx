@@ -5,7 +5,8 @@ export function TableNameButtons({ handleSetSelectedTableNameButton, selectedTab
   const [tableNames, setTableNames] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:4000/api/table_names')
+    fetch('http://localhost:4001/read_file')
+      .then(() => fetch('http://localhost:4000/api/table_names'))
       .then((res) => {
         return res.json();
       })
@@ -32,12 +33,15 @@ export function ShowTableRows({ tableName }) {
 
   useEffect(() => {
     fetch(`http://localhost:4000/api/${tableName}`)
-      .then((res) => {
-        return res.json();
-      })
+      .then((res) => res.json()).catch(() => null)
       .then((data) => {
-        setTableData(data[tableName])
-        setTableColumns(Object.keys(data[tableName][0]));
+        if (data) {
+          setTableData(data[tableName])
+          setTableColumns(Object.keys(data[tableName][0]));
+        } else {
+          setTableData([])
+          setTableColumns([])
+        }
       });
   }, [tableName]);
 
@@ -53,6 +57,11 @@ export function ShowTableRows({ tableName }) {
     )
   }
 
+  // Fallback when no data found
+  if (!tableData.length) {
+    return (<p>No data found</p>)
+  }
+
   return (
     <div className="rows-wrapper">
       <table>
@@ -62,6 +71,7 @@ export function ShowTableRows({ tableName }) {
     </div>
   )
 }
+
 
 function App() {
 
@@ -75,6 +85,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src="https://www.bettyblocks.com/hubfs/logo-red.svg" className="App-logo" alt="logo" />
+
         <p>
           Choose a model to query the results from the backend.
         </p>
