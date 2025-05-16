@@ -10,7 +10,7 @@
 .rows-wrapper {
   border: white 3px solid;
   width: 700px;
-  height: 400px;
+  height: 30%;
   border-radius: 10px;
   font-size: 14px;
   padding: 40px
@@ -18,13 +18,9 @@
 
 .rows-wrapper table {
   width: 100%;
-
   height: 100%;
+  margin-bottom: 20px;
 }
-
-/* .rows-wrapper table thead tr {
-  width: 100%;
-} */
 
 .rows-wrapper table thead tr th,
 .rows-wrapper table tbody tr td {
@@ -36,7 +32,7 @@
 .rows-wrapper table tbody {
   display: block;
   overflow: auto;
-  height: 350px;
+  height: 100%;
 }
 
 thead tr,

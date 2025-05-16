@@ -27,9 +27,8 @@ export function TableNameButtons({ handleSetSelectedTableNameButton, selectedTab
 }
 
 export function ShowTableRows({ tableName }) {
-  const [tableData, setTableData] = useState([]);
-  const [tableColumns, setTableColumns] = useState([]);
-
+  const [tableData, setTableData] = useState<any[]>([]);
+  const [tableColumns, setTableColumns] = useState<string[]>([]);
 
   useEffect(() => {
     fetch(`http://localhost:4000/api/${tableName}`)
@@ -40,15 +39,17 @@ export function ShowTableRows({ tableName }) {
         setTableData(data[tableName])
         setTableColumns(Object.keys(data[tableName][0]));
       });
-  }, []);
+  }, [tableName]);
 
   let columnHeaders = tableColumns.map((tableName) =>
     <th>{tableName}</th>
   )
 
-  function getTableRow(tableColumns, row) {
+  function getTableRow(tableColumns: any, row: any) {
     return (
-      <tr>{tableColumns.map((columnName) => <td>{row[columnName]}</td>)}</tr>
+      <tr>{tableColumns.map(function (columnName: string) {
+        return <td>{row[columnName]}</td>;
+      })}</tr>
     )
   }
 
@@ -57,7 +58,6 @@ export function ShowTableRows({ tableName }) {
       <table>
         <thead><tr>{columnHeaders}</tr></thead>
         <tbody>{tableData.map((row) => getTableRow(tableColumns, row))}</tbody>
-
       </table>
     </div>
   )
@@ -65,9 +65,9 @@ export function ShowTableRows({ tableName }) {
 
 function App() {
 
-  const [selectedTableName, setSelectedTableName] = useState(null);
+  const [selectedTableName, setSelectedTableName] = useState<string | null>(null);
 
-  function handleSetSelectedTableNameButton(value) {
+  function handleSetSelectedTableNameButton(value: string) {
     setSelectedTableName(value)
   }
 
