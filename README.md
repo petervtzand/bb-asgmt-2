@@ -11,7 +11,7 @@ It will also have a `/api/table_names` route, which will return all table names
 This is just a simple redis container from the latest redis image. Both Elixir apps can access it. Redix is used for accessing the redis instance.
 
 ## Postgres
-For relational db Postgresql is used. Only Service B uses this. A simple postgres container form the latest postgres image is used.
+For relational db Postgresql is used. Only Service B uses this. A simple postgres container from the latest postgres image is used.
 
 # Instructions
 ## Installation / Preparation
