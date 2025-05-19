@@ -7,6 +7,9 @@ This service reads the datastructure from redis. With this information it can pr
 
 It will also have a `/api/table_names` route, which will return all table names
 
+## Frontend
+This is a simple React/Typescript application. This will do api calls to Service A & B.
+
 ## Redis
 This is just a simple redis container from the latest redis image. Both Elixir apps can access it. Redix is used for accessing the redis instance.
 
@@ -24,6 +27,7 @@ For relational db Postgresql is used. Only Service B uses this. A simple postgre
 - run `make up` to start all services
 - `service_a` will run on localhost:4001
 - `service_b` will run on localhost:4000
+- `frontend` will run on localhost:3000
 
 ## Improvements
 - [ ] move create users to better location, something like script.exs somewhere?
