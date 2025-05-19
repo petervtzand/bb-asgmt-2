@@ -1,6 +1,6 @@
 # Idea
 ## Service A
-Service A takes in a yaml file with a given datastructure (file_name & columns). Then this datastructure is saved in redis. This service is an Elixir Phoenix application, which uses redis.
+Service A takes in a yaml file with a given datastructure (table_name & columns). Then this datastructure is saved in redis. This service is an Elixir Phoenix application, which uses redis.
 
 ## Service B
 This service reads the datastructure from redis. With this information it can process API http endpoints (`/api/<model_name>`) to query the instances from the database. This route will also get the column names from redis and queries only those columns
@@ -11,7 +11,7 @@ It will also have a `/api/table_names` route, which will return all table names
 This is just a simple redis container from the latest redis image. Both Elixir apps can access it. Redix is used for accessing the redis instance.
 
 ## Postgres
-For relational db Postgresql is used. Only Service B uses this. I simple postgres container form the latest postgres image is used.
+For relational db Postgresql is used. Only Service B uses this. A simple postgres container form the latest postgres image is used.
 
 # Instructions
 ## Installation / Preparation

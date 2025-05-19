@@ -92,7 +92,7 @@ defmodule AppWeb.PageController do
     # get model_name from params
     model_name = params["model_name"]
 
-    query_params = Plug.Conn.fetch_query_params(conn).query_params
+    # query_params = Plug.Conn.fetch_query_params(conn).query_params
 
     # get the actual model if it exists
     model = get_model_by_table_name(model_name)
